@@ -1,0 +1,84 @@
+<Window x:Class="TimesheetCandidateTask.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Табель выхода сотрудников"
+        Width="1100"
+        Height="620"
+        MinWidth="900"
+        MinHeight="500"
+        WindowStartupLocation="CenterScreen">
+  <Grid Margin="24">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <TextBlock FontSize="24" FontWeight="SemiBold" Text="Табель выхода сотрудников" />
+
+    <Grid Grid.Row="1" Margin="0,18,0,18">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="20" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="10" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="10" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="10" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel>
+        <TextBlock Foreground="DimGray" Text="Период" />
+        <TextBlock FontWeight="SemiBold" Text="Январь 2026" />
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Foreground="DimGray" Text="Точка" />
+        <TextBlock FontWeight="SemiBold" Text="Демонстрационная торговая точка" />
+      </StackPanel>
+      <StackPanel Grid.Column="4">
+        <TextBlock Foreground="DimGray" Text="Статус" />
+        <TextBlock FontWeight="SemiBold" Text="{Binding StatusText}" />
+      </StackPanel>
+      <Button Grid.Column="6" Padding="14,6" Command="{Binding LoadCommand}" Content="Загрузить" />
+      <Button Grid.Column="8" Padding="14,6" Command="{Binding AddEmployeeCommand}" Content="Добавить сотрудника" />
+      <Button Grid.Column="10" Padding="14,6" Command="{Binding SaveCommand}" Content="Сохранить" />
+    </Grid>
+
+    <DataGrid Grid.Row="2"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              CanUserResizeRows="False"
+              IsReadOnly="False"
+              ItemsSource="{Binding Lines}"
+              RowHeaderWidth="0">
+      <DataGrid.Columns>
+              <DataGridTextColumn Width="170" Binding="{Binding EmployeeName, Mode=OneWay}" Header="Сотрудник" IsReadOnly="True" />
+              <DataGridTextColumn Width="80" Binding="{Binding FirstDayHours, Mode=OneWay}" Header="01.01, часы" IsReadOnly="True" />
+              <DataGridTextColumn Width="190" Binding="{Binding FirstDayComment, UpdateSourceTrigger=PropertyChanged}" Header="01.01, комментарий" />
+              <DataGridTextColumn Width="80" Binding="{Binding SecondDayHours, Mode=OneWay}" Header="02.01, часы" IsReadOnly="True" />
+              <DataGridTextColumn Width="190" Binding="{Binding SecondDayComment, UpdateSourceTrigger=PropertyChanged}" Header="02.01, комментарий" />
+              <DataGridTextColumn Width="95" Binding="{Binding RegularHours, Mode=OneWay}" Header="Будни" IsReadOnly="True" />
+              <DataGridTextColumn Width="110" Binding="{Binding HolidayHours, Mode=OneWay}" Header="Праздничные" IsReadOnly="True" />
+              <DataGridTextColumn Width="80" Binding="{Binding TotalHours, Mode=OneWay}" Header="Итого" IsReadOnly="True" />
+            </DataGrid.Columns>
+    </DataGrid>
+
+    <Grid Grid.Row="3" Margin="0,18,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock VerticalAlignment="Center" Foreground="DimGray" Text="{Binding Message}" TextWrapping="Wrap" />
+      <StackPanel Grid.Column="1" Orientation="Horizontal">
+        <TextBlock Margin="0,0,16,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding OverallTotal, StringFormat=Итого по табелю: {0}}" />
+        <Button Padding="14,6" Command="{Binding ApproveCommand}" Content="Утвердить" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>
